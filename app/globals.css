@@ -1,65 +1,50 @@
 @import "tailwindcss";
+@custom-variant hover (&:hover);
 
-/* Tailwind v4 theme definitions mapping to our variables */
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --font-display: 'Syne', sans-serif;
+  --font-ui: 'Plus Jakarta Sans', sans-serif;
+
+  --color-primary: #2D7A4F;
+  --color-primary-hover: #236140;
+  --color-primary-light: #E8F5EE;
+  --color-accent: #F5A623;
+  --color-accent-light: #FEF3DC;
+  --color-background: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F4F4F0;
+  --color-border: #E5E5DF;
+  --color-text: #1A1A16;
+  --color-muted: #6B7160;
+  --color-subtle: #9B9F90;
+  --color-danger: #DC3545;
+  --color-warning: #F5A623;
+  --color-success: #2D7A4F;
 }
 
-
-  :root {
-    /* Minimalist Light Gray Base */
-    --background: #f8fafc; /* slate-50 */
-    --foreground: #0f172a; /* slate-900 */
-    
-    /* Muted/Cards */
-    --muted: #f1f5f9; /* slate-100 */
-    --muted-foreground: #64748b; /* slate-500 */
-    
-    /* Teal Accents */
-    --primary: #0f766e; /* teal-700 */
-    --primary-foreground: #ffffff;
-    
-    /* Subtle hover states */
-    --accent: #ccfbf1; /* teal-50 */
-    --accent-foreground: #115e59; /* teal-800 */
-    
-    /* UI Borders */
-    --border: #e2e8f0; /* slate-200 */
-    
-    --radius: 0.75rem;
-  }
-
-  /* Dark mode (Optional, but good for judges who prefer it) */
-  .dark {
-    --background: #020617; /* slate-950 */
-    --foreground: #f8fafc; /* slate-50 */
-    --muted: #0f172a; /* slate-900 */
-    --muted-foreground: #94a3b8; /* slate-400 */
-    --primary: #14b8a6; /* teal-500 */
-    --primary-foreground: #022c22; /* teal-950 */
-    --accent: #134e4a; /* teal-900 */
-    --accent-foreground: #ccfbf1; /* teal-50 */
-    --border: #1e293b; /* slate-800 */
-  }
-
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
+.animate-fade-in { animation: fade-in 0.4s ease forwards; }
+.animate-slide-up { animation: slide-up 0.5s ease forwards; }
+.animate-slide-right { animation: slide-right 0.4s ease forwards; }
+.animate-pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+.animate-typing { animation: typing 1.2s ease-in-out infinite; }
