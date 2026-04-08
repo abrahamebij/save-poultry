@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { RiLeafLine, RiMenuLine, RiCloseLine } from "react-icons/ri";
 import { useState } from "react";
+import Img from "../Img";
 
 const links = [
   { href: "/", label: "Home" },
@@ -21,9 +22,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-sm">
-            <RiLeafLine size={17} className="text-white" />
-          </div>
+          <Img src="/logo.png" alt="Logo" className="size-10" />
           <span className="font-display text-[17px] font-700 tracking-tight text-text">
             Save<span className="text-primary">Poultry</span>
           </span>
@@ -36,7 +35,9 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`relative rounded-lg px-4 py-2 text-sm font-500 transition-colors ${
-                pathname === link.href ? "text-primary" : "text-muted hover:text-text"
+                pathname === link.href
+                  ? "text-primary"
+                  : "text-muted hover:text-text"
               }`}
             >
               {pathname === link.href && (
@@ -59,7 +60,10 @@ export default function Navbar() {
             Diagnose Now
           </Link>
           {/* Mobile menu toggle */}
-          <button className="md:hidden text-muted" onClick={() => setOpen(!open)}>
+          <button
+            className="md:hidden text-muted"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <RiCloseLine size={22} /> : <RiMenuLine size={22} />}
           </button>
         </div>
@@ -74,7 +78,9 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setOpen(false)}
               className={`block rounded-lg px-4 py-2.5 text-sm font-500 ${
-                pathname === link.href ? "bg-primary-light text-primary" : "text-muted"
+                pathname === link.href
+                  ? "bg-primary-light text-primary"
+                  : "text-muted"
               }`}
             >
               {link.label}
