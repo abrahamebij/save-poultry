@@ -50,3 +50,7 @@
 .animate-marquee { animation: marquee 28s linear infinite; }
 .animate-typing { animation: typing-dot 1.2s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+
+button {
+  @apply cursor-pointer
+}

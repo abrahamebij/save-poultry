@@ -30,7 +30,11 @@ export default function InputBar({
           <div className="flex items-center gap-3">
             <div className="relative">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imagePreview} alt="Preview" className="h-16 w-16 rounded-xl object-cover border border-border shadow-sm" />
+              <img
+                src={imagePreview}
+                alt="Preview"
+                className="h-16 w-16 rounded-xl object-cover border border-border shadow-sm"
+              />
               <button
                 onClick={onClearImage}
                 className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-text text-white shadow"
@@ -43,8 +47,14 @@ export default function InputBar({
         )}
 
         {/* Input row */}
-        <div className="flex items-end gap-3 rounded-2xl border border-border bg-background px-4 py-3 transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
-          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onImageChange} />
+        <div className="flex items-center gap-3 rounded-2xl border border-border bg-background px-4 py-3 transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={onImageChange}
+          />
           <button
             onClick={() => fileRef.current?.click()}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface-2 text-muted transition-colors hover:bg-primary-light hover:text-primary"
@@ -73,7 +83,8 @@ export default function InputBar({
         </div>
 
         <p className="text-center text-[11px] text-subtle">
-          Dr. Cluck is an AI assistant · Always confirm with a licensed vet before treatment
+          Dr. Cluck is an AI assistant · Always confirm with a licensed vet
+          before treatment
         </p>
       </div>
     </div>

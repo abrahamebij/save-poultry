@@ -92,7 +92,7 @@ export default function ChatPage() {
     <div className="flex h-screen flex-col bg-background">
       <Navbar />
       <div className="flex flex-1 flex-col overflow-hidden pt-16">
-        <ChatHeader />
+        {/* <ChatHeader /> */}
         <MessageList messages={messages} loading={isPending} />
         <InputBar
           input={input}
