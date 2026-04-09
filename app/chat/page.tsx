@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
-import ChatHeader from "@/components/chat/ChatHeader";
 import MessageList from "@/components/chat/MessageList";
 import InputBar from "@/components/chat/InputBar";
 import { WELCOME_MESSAGE } from "@/components/chat/types";

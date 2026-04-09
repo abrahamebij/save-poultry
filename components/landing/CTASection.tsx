@@ -24,17 +24,21 @@ export default function CTASection() {
             Free · No account needed · Instant results
           </p>
           <h2 className="font-display text-4xl font-800 text-white md:text-5xl">
-            Your flock can't wait.
+            Your flock can&apos;t wait.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-lg text-white/75">
-            Upload a photo, describe the symptoms, and Dr. Cluck will have a diagnosis for you in seconds.
+            Upload a photo, describe the symptoms, and Dr. Cluck will have a
+            diagnosis for you in seconds.
           </p>
           <Link
             href="/chat"
             className="group mt-10 inline-flex items-center gap-2.5 rounded-xl bg-white px-8 py-4 font-500 text-primary shadow-xl transition-all hover:-translate-y-0.5 hover:shadow-2xl"
           >
             Start Free Diagnosis
-            <RiArrowRightLine size={18} className="transition-transform group-hover:translate-x-1" />
+            <RiArrowRightLine
+              size={18}
+              className="transition-transform group-hover:translate-x-1"
+            />
           </Link>
         </motion.div>
       </div>

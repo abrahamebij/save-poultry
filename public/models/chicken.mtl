@@ -1,12 +1,17 @@
+# SavePoultry Chicken MTL - Light Green Body
+
 newmtl VRayMtl1SG
 illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
+Kd 0.68 0.92 0.65     # Light green for main body feathers
+Ka 0.22 0.28 0.20     # Ambient to prevent dark shadows
+Ks 0.25 0.30 0.22     # Slight specular for feather texture
 Tf 1.00 1.00 1.00
-Ni 0.00
+Ni 1.00
+
 newmtl initialShadingGroup
 illum 4
-Kd 0.50 0.50 0.50
-Ka 0.00 0.00 0.00
+Kd 0.65 0.88 0.62     # Slightly different green tone for fallback parts
+Ka 0.20 0.25 0.18
+Ks 0.22 0.28 0.20
 Tf 1.00 1.00 1.00
 Ni 1.00

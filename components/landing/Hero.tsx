@@ -31,8 +31,8 @@ function ChickenModel() {
     <primitive
       ref={ref}
       object={obj}
-      scale={0.22} // ← adjust this, STL/OBJ models are often huge
-      position={[0, -1, 0]}
+      scale={0.275} // ← adjust this, STL/OBJ models are often huge
+      position={[0, -2.2, -0.5]}
       rotation={[0, 0, 0]}
     />
   );
@@ -128,15 +128,23 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative hidden h-[560px] w-full lg:block"
+          className="relative h-140 flex justify-center items-center w-full lg:block"
         >
           <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
-            <ambientLight intensity={0.8} />
-            <pointLight position={[5, 8, 5]} color="#4ade80" intensity={3} />
+            <ambientLight intensity={1.1} color="#fffbeb" />
+
+            <pointLight position={[6, 10, 8]} intensity={2.8} color="#fef3c7" />
+
             <pointLight
-              position={[-4, -3, -3]}
-              color="#bbf7d0"
-              intensity={1.5}
+              position={[-7, -5, -6]}
+              intensity={1.6}
+              color="#e0f2fe"
+            />
+
+            <directionalLight
+              position={[4, 8, 5]}
+              intensity={1.4}
+              castShadow={false}
             />
             <Stars
               radius={60}
@@ -153,6 +161,7 @@ export default function Hero() {
               enableZoom={false}
               enablePan={false}
               autoRotate={false}
+              autoRotateSpeed={0.4}
             />
           </Canvas>
 

@@ -3,7 +3,6 @@ import Footer from "@/components/layout/Footer";
 import StepsSection from "@/components/how-it-works/StepsSection";
 import DiseasesSection from "@/components/how-it-works/DiseasesSection";
 import WhoIsItFor from "@/components/how-it-works/WhoIsItFor";
-import { motion } from "framer-motion";
 
 export default function HowItWorksPage() {
   return (

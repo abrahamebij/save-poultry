@@ -3,7 +3,6 @@ import {
   RiCheckboxCircleLine,
   RiAlertLine,
   RiErrorWarningLine,
-  RiLeafLine,
 } from "react-icons/ri";
 import type { Message, Severity } from "./types";
 import Img from "../Img";
