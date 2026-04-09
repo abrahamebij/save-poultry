@@ -3,43 +3,38 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
-import { Float, Sphere, MeshDistortMaterial, Stars } from "@react-three/drei";
+import { Stars, OrbitControls } from "@react-three/drei";
 import { RiArrowRightLine, RiShieldCheckLine } from "react-icons/ri";
 import { Suspense } from "react";
 
-function HeroScene() {
+import { useLoader } from "@react-three/fiber";
+import { MTLLoader, OBJLoader } from "three-stdlib";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Group } from "three";
+
+function ChickenModel() {
+  const materials = useLoader(MTLLoader, "/models/chicken.mtl");
+  // const obj = useLoader(OBJLoader, "/models/chicken.obj");
+  const obj = useLoader(OBJLoader, "/models/chicken.obj", (loader) => {
+    materials.preload();
+    (loader as OBJLoader).setMaterials(materials);
+  });
+  const ref = useRef<Group>(null);
+
+  // Slow auto-rotate
+  useFrame((_, delta) => {
+    if (ref.current) ref.current.rotation.y += delta * 0.4;
+  });
+
   return (
-    <>
-      <ambientLight intensity={0.6} />
-      <pointLight position={[6, 8, 6]} color="#4ade80" intensity={3} />
-      <pointLight position={[-6, -4, -4]} color="#bbf7d0" intensity={1.5} />
-      <Stars radius={60} depth={30} count={800} factor={3} fade speed={0.6} />
-      <Float speed={1.8} rotationIntensity={0.6} floatIntensity={1.4}>
-        <Sphere args={[1.9, 80, 80]}>
-          <MeshDistortMaterial
-            color="#1B6B3A"
-            distort={0.38}
-            speed={2.2}
-            roughness={0.15}
-            metalness={0.3}
-          />
-        </Sphere>
-      </Float>
-      {/* Smaller satellite orb */}
-      <Float speed={2.8} rotationIntensity={1} floatIntensity={2} floatingRange={[-0.3, 0.3]}>
-        <Sphere args={[0.55, 40, 40]} position={[2.8, 1.2, -1]}>
-          <MeshDistortMaterial
-            color="#F4A228"
-            distort={0.5}
-            speed={3}
-            roughness={0.2}
-            metalness={0.1}
-            transparent
-            opacity={0.85}
-          />
-        </Sphere>
-      </Float>
-    </>
+    <primitive
+      ref={ref}
+      object={obj}
+      scale={0.22} // ← adjust this, STL/OBJ models are often huge
+      position={[0, -1, 0]}
+      rotation={[0, 0, 0]}
+    />
   );
 }
 
@@ -76,15 +71,18 @@ export default function Hero() {
           </div>
 
           <h1 className="font-display text-[3.6rem] font-800 leading-[1.08] tracking-tight text-text lg:text-[4.2rem]">
-            Diagnose your<br />
-            flock.<br />
+            Diagnose your
+            <br />
+            flock.
+            <br />
             <span className="text-primary">Save lives.</span>
           </h1>
 
           <p className="mt-6 max-w-md text-[1.05rem] leading-relaxed text-muted">
-            Upload a photo of your sick bird and chat with <strong className="text-text font-500">Dr. Cluck</strong> —
-            your AI poultry vet. Get disease detection, severity scores, and
-            treatment plans in under 30 seconds.
+            Upload a photo of your sick bird and chat with{" "}
+            <strong className="text-text font-500">Dr. Cluck</strong> — your AI
+            poultry vet. Get disease detection, severity scores, and treatment
+            plans in under 30 seconds.
           </p>
 
           {/* Trust signals */}
@@ -111,7 +109,10 @@ export default function Hero() {
               className="group inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-500 text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30"
             >
               Start Free Diagnosis
-              <RiArrowRightLine size={17} className="transition-transform group-hover:translate-x-1" />
+              <RiArrowRightLine
+                size={17}
+                className="transition-transform group-hover:translate-x-1"
+              />
             </Link>
             <Link
               href="/how-it-works"
@@ -129,11 +130,31 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="relative hidden h-[560px] w-full lg:block"
         >
-          <Suspense fallback={null}>
-            <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
-              <HeroScene />
-            </Canvas>
-          </Suspense>
+          <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
+            <ambientLight intensity={0.8} />
+            <pointLight position={[5, 8, 5]} color="#4ade80" intensity={3} />
+            <pointLight
+              position={[-4, -3, -3]}
+              color="#bbf7d0"
+              intensity={1.5}
+            />
+            <Stars
+              radius={60}
+              depth={30}
+              count={800}
+              factor={3}
+              fade
+              speed={0.6}
+            />
+            <Suspense fallback={null}>
+              <ChickenModel />
+            </Suspense>
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              autoRotate={false}
+            />
+          </Canvas>
 
           {/* Floating stat cards */}
           <motion.div
