@@ -12,6 +12,101 @@ const Globe = dynamic(() => import("@/components/outbreak-map/Globe"), {
   ssr: false,
 });
 
+const poultryRegions = [
+  {
+    name: "Atlanta, USA",
+    location: [33.75, -84.39],
+    size: 0.07,
+    disease: "Highly Pathogenic Avian Influenza (HPAI)",
+    severity: "Very High",
+  },
+  {
+    name: "São Paulo, Brazil",
+    location: [-23.55, -46.63],
+    size: 0.08,
+    disease: "Highly Pathogenic Avian Influenza (HPAI)",
+    severity: "High",
+  },
+  {
+    name: "Rotterdam, Netherlands",
+    location: [51.92, 4.48],
+    size: 0.06,
+    disease: "Newcastle Disease",
+    severity: "Medium",
+  },
+  {
+    name: "Lagos, Nigeria",
+    location: [6.52, 3.38],
+    size: 0.085,
+    disease: "Newcastle Disease (ND)",
+    severity: "Very High",
+  },
+  {
+    name: "Riyadh, Saudi Arabia",
+    location: [24.71, 46.68],
+    size: 0.055,
+    disease: "Newcastle Disease",
+    severity: "High",
+  },
+  {
+    name: "Delhi, India",
+    location: [28.61, 77.21],
+    size: 0.065,
+    disease: "Newcastle Disease (ND)",
+    severity: "Very High",
+  },
+  {
+    name: "Beijing, China",
+    location: [39.9, 116.41],
+    size: 0.07,
+    disease: "Highly Pathogenic Avian Influenza (HPAI)",
+    severity: "High",
+  },
+  {
+    name: "Bangkok, Thailand",
+    location: [13.76, 100.5],
+    size: 0.06,
+    disease: "Newcastle Disease",
+    severity: "High",
+  },
+  {
+    name: "Sydney, Australia",
+    location: [-33.87, 151.21],
+    size: 0.05,
+    disease: "Avian Influenza",
+    severity: "Medium",
+  },
+  {
+    name: "Moscow, Russia",
+    location: [55.76, 37.62],
+    size: 0.055,
+    disease: "Newcastle Disease",
+    severity: "Medium-High",
+  },
+  {
+    name: "Mexico City, Mexico",
+    location: [19.43, -99.13],
+    size: 0.05,
+    disease: "Newcastle Disease",
+    severity: "High",
+  },
+  {
+    name: "Nairobi, Kenya",
+    location: [-1.29, 36.82],
+    size: 0.045,
+    disease: "Newcastle Disease (ND)",
+    severity: "Very High",
+  },
+  {
+    name: "Istanbul, Turkey",
+    location: [41.01, 28.98],
+    size: 0.05,
+    disease: "Highly Pathogenic Avian Influenza (HPAI)",
+    severity: "High",
+  },
+];
+
+
 interface RegionData {
   region: string;
   countries: string[];

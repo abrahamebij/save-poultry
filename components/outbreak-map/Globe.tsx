@@ -9,16 +9,22 @@ const Globe = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const globeRef = useRef<any>(null);
   const pointerRef = useRef<number | null>(null);
+  const velocityRef = useRef(0); // ← New: tracks drag speed
 
-  // Rotation spring
+  // Rotation spring - tuned for natural feel
   const [{ phi }, api] = useSpring(() => ({
     phi: 0,
-    config: { mass: 1, tension: 280, friction: 60 },
+    config: {
+      mass: 1.2,
+      tension: 80, // Lower tension = more momentum
+      friction: 25, // Lower friction = longer deceleration
+    },
   }));
 
   // Dragging handlers
   const handlePointerDown = (e: React.PointerEvent) => {
     pointerRef.current = e.clientX;
+    velocityRef.current = 0;
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
@@ -27,8 +33,11 @@ const Globe = () => {
 
     const delta = e.clientX - pointerRef.current;
 
+    // Calculate velocity for inertia
+    velocityRef.current = delta * 0.008;
+
     api.start({
-      phi: phi.get() + delta * 0.006, // adjust sensitivity here
+      phi: phi.get() + delta * 0.006,
       immediate: true,
     });
 
@@ -36,18 +45,27 @@ const Globe = () => {
   };
 
   const handlePointerUp = () => {
+    if (pointerRef.current === null) return;
+
+    // Apply inertia when releasing
+    const currentPhi = phi.get();
+    api.start({
+      phi: currentPhi + velocityRef.current * 60, // momentum boost
+      immediate: false,
+    });
+
     pointerRef.current = null;
   };
 
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const size = innerWidth > 300 ? innerWidth / 3 : 240;
+    const size = Math.min(window.innerWidth * 0.85, 620);
 
     const options: COBEOptions = {
       devicePixelRatio: 2,
-      width: size,
-      height: size,
+      width: size * 2,
+      height: size * 2,
       phi: 0,
       theta: 0.25,
       dark: 0,
@@ -63,13 +81,11 @@ const Globe = () => {
       ],
     };
 
-    // Create the globe
     globeRef.current = createGlobe(canvasRef.current, options);
 
-    // Animation loop with globe update inside (as you requested)
+    // Animation loop
     let rafId: number;
     function animate() {
-      // Update globe with current spring value
       globeRef.current?.update({ phi: phi.get() });
       rafId = requestAnimationFrame(animate);
     }
@@ -79,7 +95,7 @@ const Globe = () => {
       cancelAnimationFrame(rafId);
       globeRef.current?.destroy();
     };
-  }, [phi]); // Re-run when phi changes (needed for spring)
+  }, [phi]);
 
   // Responsive resize
   useEffect(() => {
@@ -93,6 +109,8 @@ const Globe = () => {
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize(); // initial call
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
