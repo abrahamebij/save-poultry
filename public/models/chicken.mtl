@@ -1,17 +1,62 @@
-# SavePoultry Chicken MTL - Light Green Body
+# Blender 4.2.3 LTS MTL File: 'Rooster.blend'
+# www.blender.org
 
-newmtl VRayMtl1SG
-illum 4
-Kd 0.68 0.92 0.65     # Light green for main body feathers
-Ka 0.22 0.28 0.20     # Ambient to prevent dark shadows
-Ks 0.25 0.30 0.22     # Slight specular for feather texture
-Tf 1.00 1.00 1.00
-Ni 1.00
+newmtl Material
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.284224 0.088089 0.024776
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
 
-newmtl initialShadingGroup
-illum 4
-Kd 0.65 0.88 0.62     # Slightly different green tone for fallback parts
-Ka 0.20 0.25 0.18
-Ks 0.22 0.28 0.20
-Tf 1.00 1.00 1.00
-Ni 1.00
+newmtl Material.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.238214 0.047103 0.007007
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Material.002
+Ns 25.309908
+Ka 1.000000 1.000000 1.000000
+Kd 0.645934 0.000000 0.001978
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Material.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Material.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.136608 0.210009
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Material.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.801320 0.141628 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2

@@ -31,7 +31,7 @@ function ChickenModel() {
     <primitive
       ref={ref}
       object={obj}
-      scale={0.275} // ← adjust this, STL/OBJ models are often huge
+      scale={0.017} // ← adjust this, STL/OBJ models are often huge
       position={[0, -2.2, -0.5]}
       rotation={[0, 0, 0]}
     />
@@ -152,7 +152,7 @@ export default function Hero() {
               count={800}
               factor={3}
               fade
-              speed={0.6}
+              speed={0.2}
             />
             <Suspense fallback={null}>
               <ChickenModel />
