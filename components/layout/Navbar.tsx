@@ -10,7 +10,7 @@ import Img from "../Img";
 const links = [
   { href: "/", label: "Home" },
   { href: "/how-it-works", label: "How it Works" },
-  { href: "/chat", label: "Try Now" },
+  { href: "/chat", label: "AI Chat" },
 ];
 
 export default function Navbar() {
@@ -54,10 +54,10 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <Link
-            href="/chat"
+            href="/try"
             className="hidden rounded-lg bg-primary px-4 py-2 text-sm font-500 text-white shadow-sm transition-all hover:bg-primary-hover hover:shadow-md md:inline-flex"
           >
-            Diagnose Now
+            Try Now
           </Link>
           {/* Mobile menu toggle */}
           <button

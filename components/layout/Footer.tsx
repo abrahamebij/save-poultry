@@ -24,7 +24,7 @@ export default function Footer() {
             >
               How it Works
             </Link>
-            <Link href="/chat" className="hover:text-text transition-colors">
+            <Link href="/try" className="hover:text-text transition-colors">
               Try Now
             </Link>
           </div>

@@ -31,7 +31,7 @@ export default function CTASection() {
             diagnosis for you in seconds.
           </p>
           <Link
-            href="/chat"
+            href="/try"
             className="group mt-10 inline-flex items-center gap-2.5 rounded-xl bg-white px-8 py-4 font-500 text-primary shadow-xl transition-all hover:-translate-y-0.5 hover:shadow-2xl"
           >
             Start Free Diagnosis

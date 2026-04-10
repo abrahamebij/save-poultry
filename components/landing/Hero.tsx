@@ -105,7 +105,7 @@ export default function Hero() {
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <Link
-              href="/chat"
+              href="/try"
               className="group inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 font-500 text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30"
             >
               Start Free Diagnosis
