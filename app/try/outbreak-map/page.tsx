@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { RiMapPin2Line, RiAlertLine, RiCalendarLine } from "react-icons/ri";
-import Globe from "@/components/outbreak-map/Globe";
+
+import dynamic from "next/dynamic";
+
+const Globe = dynamic(() => import("@/components/outbreak-map/Globe"), {
+  ssr: false,
+});
 
 interface RegionData {
   region: string;
@@ -140,8 +145,6 @@ export default function OutbreakMapPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <Globe />
-
       <section className="pt-28 pb-8">
         <div className="mx-auto max-w-6xl px-6">
           <p className="mb-2 text-xs font-500 uppercase tracking-[0.15em] text-primary">
@@ -157,7 +160,9 @@ export default function OutbreakMapPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-6 pb-24">
+      <Globe />
+
+      <div className="mx-auto max-w-6xl px-6 pt-16 pb-24">
         <div className="grid gap-6 lg:grid-cols-5">
           {/* Region list */}
           <div className="lg:col-span-2 space-y-3">
