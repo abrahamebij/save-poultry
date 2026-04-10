@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import MessageList from "@/components/chat/MessageList";
 import InputBar from "@/components/chat/InputBar";
@@ -8,13 +8,50 @@ import { WELCOME_MESSAGE } from "@/components/chat/types";
 import { useDiagnose } from "@/hooks/useDiagnose";
 import type { Message } from "@/components/chat/types";
 
+const STORAGE_KEY = "savepoultry_chat_history";
+
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    // Lazy initializer: read from localStorage synchronously on first render
+    if (typeof window === "undefined") return [WELCOME_MESSAGE];
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed: Message[] = JSON.parse(stored);
+        if (parsed.length > 0) return parsed;
+      }
+    } catch {
+      // Corrupted storage — start fresh
+    }
+    return [WELCOME_MESSAGE];
+  });
   const [input, setInput] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
 
   const { mutate: diagnose, isPending } = useDiagnose();
+
+  // Mark as hydrated after mount
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHydrated(true);
+  }, []);
+
+  // Persist to localStorage whenever messages change (after hydration)
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+    } catch {
+      // Storage quota exceeded — fail silently
+    }
+  }, [messages, hydrated]);
+
+  function clearChat() {
+    localStorage.removeItem(STORAGE_KEY);
+    setMessages([WELCOME_MESSAGE]);
+  }
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -87,12 +124,18 @@ export default function ChatPage() {
     );
   }
 
+  // Prevent hydration flash — don't render until localStorage is read
+  if (!hydrated) return null;
+
   return (
     <div className="flex h-screen flex-col bg-background">
       <Navbar />
       <div className="flex flex-1 flex-col overflow-hidden pt-16">
-        {/* <ChatHeader /> */}
-        <MessageList messages={messages} loading={isPending} />
+        <MessageList
+          messages={messages}
+          loading={isPending}
+          onClearChat={clearChat}
+        />
         <InputBar
           input={input}
           setInput={setInput}

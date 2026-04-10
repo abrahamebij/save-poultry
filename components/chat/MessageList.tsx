@@ -2,11 +2,17 @@
 
 import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { RiLeafLine } from "react-icons/ri";
+import { RiLeafLine, RiDeleteBin6Line } from "react-icons/ri";
 import MessageBubble from "./MessageBubble";
 import type { Message } from "./types";
 
-export default function MessageList({ messages, loading }: { messages: Message[]; loading: boolean }) {
+interface Props {
+  messages: Message[];
+  loading: boolean;
+  onClearChat: () => void;
+}
+
+export default function MessageList({ messages, loading, onClearChat }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,7 +20,20 @@ export default function MessageList({ messages, loading }: { messages: Message[]
   }, [messages, loading]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-6 py-8">
+    <div className="relative flex-1 overflow-y-auto px-6 py-8">
+      {/* Floating clear button — only when there's real conversation */}
+      {messages.length > 1 && (
+        <div className="sticky top-0 z-10 flex justify-end mb-4 pointer-events-none">
+          <button
+            onClick={onClearChat}
+            className="pointer-events-auto flex items-center gap-1.5 rounded-lg border border-border bg-surface/90 px-3 py-1.5 text-xs font-500 text-muted shadow-sm backdrop-blur-sm transition-colors hover:border-danger/40 hover:bg-red-50 hover:text-danger"
+          >
+            <RiDeleteBin6Line size={12} />
+            Clear chat
+          </button>
+        </div>
+      )}
+
       <div className="mx-auto max-w-3xl space-y-6">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
