@@ -1,7 +1,7 @@
 # SavePoultry
 
 **AI-Powered Poultry Health Diagnosis**  
-Global Fusion Hackathon 2026 · AgriTech Track
+AgriTech Track
 
 ---
 
@@ -208,12 +208,6 @@ For Quick Scan and Treatment Guide, the same `/api/diagnose` endpoint is used wi
 - [ ] Vet referral network — connect farmers to verified local vets
 - [ ] SMS-based diagnosis for feature phones (no smartphone required)
 - [ ] Fine-tuned vision model on curated poultry disease image dataset
-
----
-
-## Team
-
-Built solo for the Global Fusion Hackathon 2026.
 
 ---
 

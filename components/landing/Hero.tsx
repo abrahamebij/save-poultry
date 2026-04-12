@@ -67,7 +67,7 @@ export default function Hero() {
               <span className="animate-pulse-ring absolute inline-flex h-full w-full rounded-full bg-primary opacity-50" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
             </span>
-            AgriTech AI · Global Fusion Hackathon 2026
+            AgriTech AI
           </div>
 
           <h1 className="font-display text-[3.6rem] font-800 leading-[1.08] tracking-tight text-text lg:text-[4.2rem]">

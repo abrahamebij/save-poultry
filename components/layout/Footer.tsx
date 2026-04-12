@@ -30,8 +30,6 @@ export default function Footer() {
           </div>
 
           <p className="text-xs text-subtle text-center md:text-right">
-            Built for Global Fusion Hackathon 2026
-            <br />
             AI diagnosis ≠ professional vet advice
           </p>
         </div>

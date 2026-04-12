@@ -77,8 +77,7 @@ export default function WhoIsItFor() {
                 SavePoultry is an AI-powered tool built to assist, not replace,
                 professional veterinary diagnosis. All diagnoses should be
                 verified by a licensed poultry veterinarian before treatment
-                decisions are made. Built as part of the Global Fusion Hackathon
-                2026.
+                decisions are made.
               </p>
             </div>
           </div>

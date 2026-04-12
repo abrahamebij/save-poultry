@@ -27,52 +27,42 @@ interface TreatmentProtocol {
 }
 
 async function fetchTreatment(query: string): Promise<TreatmentProtocol> {
-  const res = await fetch("/api/diagnose", {
+  const res = await fetch("/api/treatment", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: `You are a poultry veterinarian. Provide a detailed treatment protocol for: "${query}"
-
-Respond in this exact JSON format only (no markdown, no backticks):
-{
-  "disease": "official disease name",
-  "urgency": "routine|urgent|emergency",
-  "isolation": "isolation instructions",
-  "medications": [
-    { "name": "medication name", "dosage": "dosage instructions", "duration": "duration" }
-  ],
-  "supportiveCare": ["care step 1", "care step 2"],
-  "recoveryTimeline": "expected recovery description",
-  "whenToCallVet": ["reason 1", "reason 2"]
-}`,
-            },
-          ],
-        },
-      ],
-    }),
+    body: JSON.stringify({ query }),
   });
 
-  if (!res.ok) throw new Error("Failed to generate treatment guide.");
   const body = await res.json();
 
+  // Surface server-side error messages directly
+  if (!res.ok) {
+    throw new Error(body?.error ?? "Failed to generate treatment guide.");
+  }
+
   try {
-    const clean = body.text.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(clean);
+    const parsed = JSON.parse(body.text);
     return { ...parsed, fullText: body.text };
   } catch {
-    throw new Error("Could not parse treatment protocol. Please try again.");
+    throw new Error(
+      "Could not parse the treatment protocol. Please try again.",
+    );
   }
 }
 
 const urgencyConfig = {
-  routine: { label: "Routine", cls: "bg-green-100 text-green-700 border-green-200" },
-  urgent: { label: "Urgent", cls: "bg-amber-100 text-amber-700 border-amber-200" },
-  emergency: { label: "Emergency", cls: "bg-red-100 text-red-700 border-red-200" },
+  routine: {
+    label: "Routine",
+    cls: "bg-green-100 text-green-700 border-green-200",
+  },
+  urgent: {
+    label: "Urgent",
+    cls: "bg-amber-100 text-amber-700 border-amber-200",
+  },
+  emergency: {
+    label: "Emergency",
+    cls: "bg-red-100 text-red-700 border-red-200",
+  },
 };
 
 const suggestions = diseases.map((d) => d.name);
@@ -81,23 +71,31 @@ export default function TreatmentGuidePage() {
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const { mutate: getProtocol, data: protocol, isPending, reset, error } = useMutation({
+  const {
+    mutate: getProtocol,
+    data: protocol,
+    isPending,
+    reset,
+    error,
+  } = useMutation({
     mutationFn: fetchTreatment,
   });
 
-  const filtered = suggestions.filter((s) =>
-    s.toLowerCase().includes(query.toLowerCase()) && query.length > 0
+  const filtered = suggestions.filter(
+    (s) => s.toLowerCase().includes(query.toLowerCase()) && query.length > 0,
   );
 
   function handleSearch() {
     if (!query.trim()) return;
     setShowSuggestions(false);
+    reset();
     getProtocol(query.trim());
   }
 
   function handleSuggestion(name: string) {
     setQuery(name);
     setShowSuggestions(false);
+    reset();
     getProtocol(name);
   }
 
@@ -107,10 +105,16 @@ export default function TreatmentGuidePage() {
 
       <section className="pt-28 pb-8">
         <div className="mx-auto max-w-3xl px-6">
-          <p className="mb-2 text-xs font-500 uppercase tracking-[0.15em] text-primary">Treatment Guide</p>
-          <h1 className="font-display text-4xl font-800 text-text">AI Treatment Protocols</h1>
+          <p className="mb-2 text-xs font-500 uppercase tracking-[0.15em] text-primary">
+            Treatment Guide
+          </p>
+          <h1 className="font-display text-4xl font-800 text-text">
+            AI Treatment Protocols
+          </h1>
           <p className="mt-3 text-muted">
-            Enter a disease name or symptom and get a complete AI-generated treatment protocol — medications, dosage, isolation, and recovery timeline.
+            Enter a disease name or symptom and get a complete AI-generated
+            treatment protocol — medications, dosage, isolation, and recovery
+            timeline.
           </p>
         </div>
       </section>
@@ -124,7 +128,11 @@ export default function TreatmentGuidePage() {
                 <RiSearchLine size={17} className="shrink-0 text-subtle" />
                 <input
                   value={query}
-                  onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); reset(); }}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowSuggestions(true);
+                    reset();
+                  }}
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                   placeholder="e.g. Newcastle Disease, bloody droppings, leg paralysis…"
                   className="flex-1 bg-transparent text-sm text-text placeholder:text-subtle outline-none"
@@ -146,7 +154,10 @@ export default function TreatmentGuidePage() {
                         onClick={() => handleSuggestion(s)}
                         className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-text hover:bg-surface-2 transition-colors"
                       >
-                        <RiMedicineBottleLine size={14} className="shrink-0 text-primary" />
+                        <RiMedicineBottleLine
+                          size={14}
+                          className="shrink-0 text-primary"
+                        />
                         {s}
                       </button>
                     ))}
@@ -168,8 +179,16 @@ export default function TreatmentGuidePage() {
           {/* Quick suggestions */}
           {!protocol && !isPending && (
             <div className="mt-4 flex flex-wrap gap-2">
-              <p className="w-full text-xs text-subtle mb-1">Common searches:</p>
-              {["Newcastle Disease", "Coccidiosis", "Marek's Disease", "Fowl Pox", "Bumblefoot"].map((s) => (
+              <p className="w-full text-xs text-subtle mb-1">
+                Common searches:
+              </p>
+              {[
+                "Newcastle Disease",
+                "Coccidiosis",
+                "Marek's Disease",
+                "Fowl Pox",
+                "Bumblefoot",
+              ].map((s) => (
                 <button
                   key={s}
                   onClick={() => handleSuggestion(s)}
@@ -186,7 +205,10 @@ export default function TreatmentGuidePage() {
         {isPending && (
           <div className="flex flex-col items-center gap-4 py-16">
             <div className="h-12 w-12 animate-spin rounded-full border-4 border-border border-t-primary" />
-            <p className="text-sm text-muted">Generating treatment protocol for <strong className="text-text">{query}</strong>…</p>
+            <p className="text-sm text-muted">
+              Generating treatment protocol for{" "}
+              <strong className="text-text">{query}</strong>…
+            </p>
           </div>
         )}
 
@@ -208,10 +230,16 @@ export default function TreatmentGuidePage() {
               {/* Header */}
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <p className="text-xs text-muted uppercase tracking-wider">Treatment Protocol</p>
-                  <h2 className="font-display text-2xl font-800 text-text">{protocol.disease}</h2>
+                  <p className="text-xs text-muted uppercase tracking-wider">
+                    Treatment Protocol
+                  </p>
+                  <h2 className="font-display text-2xl font-800 text-text">
+                    {protocol.disease}
+                  </h2>
                 </div>
-                <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-500 ${urgencyConfig[protocol.urgency].cls}`}>
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-500 ${urgencyConfig[protocol.urgency].cls}`}
+                >
                   <RiAlertLine size={12} />
                   {urgencyConfig[protocol.urgency].label}
                 </span>
@@ -233,7 +261,10 @@ export default function TreatmentGuidePage() {
                   </p>
                   <div className="space-y-3">
                     {protocol.medications.map((med, i) => (
-                      <div key={i} className="flex items-start gap-4 rounded-xl bg-surface-2 p-4">
+                      <div
+                        key={i}
+                        className="flex items-start gap-4 rounded-xl bg-surface-2 p-4"
+                      >
                         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-700 text-white">
                           {i + 1}
                         </span>
@@ -253,10 +284,15 @@ export default function TreatmentGuidePage() {
               {/* Supportive care + recovery */}
               <div className="grid gap-5 md:grid-cols-2">
                 <div className="rounded-2xl border border-border bg-surface p-6">
-                  <p className="mb-3 text-xs font-500 uppercase tracking-wider text-muted">Supportive Care</p>
+                  <p className="mb-3 text-xs font-500 uppercase tracking-wider text-muted">
+                    Supportive Care
+                  </p>
                   <ul className="space-y-2">
                     {protocol.supportiveCare.map((s, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-text">
+                      <li
+                        key={i}
+                        className="flex items-start gap-2 text-sm text-text"
+                      >
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                         {s}
                       </li>
@@ -265,8 +301,12 @@ export default function TreatmentGuidePage() {
                 </div>
 
                 <div className="rounded-2xl border border-border bg-surface p-6">
-                  <p className="mb-3 text-xs font-500 uppercase tracking-wider text-muted">Recovery Timeline</p>
-                  <p className="text-sm leading-relaxed text-text">{protocol.recoveryTimeline}</p>
+                  <p className="mb-3 text-xs font-500 uppercase tracking-wider text-muted">
+                    Recovery Timeline
+                  </p>
+                  <p className="text-sm leading-relaxed text-text">
+                    {protocol.recoveryTimeline}
+                  </p>
                 </div>
               </div>
 
@@ -277,7 +317,10 @@ export default function TreatmentGuidePage() {
                 </p>
                 <ul className="space-y-2">
                   {protocol.whenToCallVet.map((s, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-primary">
+                    <li
+                      key={i}
+                      className="flex items-start gap-2 text-sm text-primary"
+                    >
                       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                       {s}
                     </li>
@@ -286,7 +329,8 @@ export default function TreatmentGuidePage() {
               </div>
 
               <p className="text-xs text-subtle text-center pt-2">
-                AI-generated protocol. Always confirm with a licensed veterinarian before treating.
+                AI-generated protocol. Always confirm with a licensed
+                veterinarian before treating.
               </p>
             </motion.div>
           )}
