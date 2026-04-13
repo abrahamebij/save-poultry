@@ -12,9 +12,11 @@ The core insight: millions of smallholder farmers across Sub-Saharan Africa, Sou
 
 SavePoultry puts an AI veterinarian in every farmer's pocket.
 
-## 📍 Live Demo
+## 📍 Demo
 
-[https://save-poultry.vercel.app/](https://save-poultry.vercel.app/)
+- [Web link](https://save-poultry.vercel.app/)
+- [Slides Download](https://github.com/abrahamebij/save-poultry/raw/refs/heads/master/public/slides.pptx)
+- [Youtube Demo](https://www.youtube.com/watch?v=ZXjJqsvPbSo)
 
 ![Demo](https://i.ibb.co/7xFZ61HD/Cover-Gifonline-video-cutter-com-ezgif-com-video-to-gif-converter.gif)
 
